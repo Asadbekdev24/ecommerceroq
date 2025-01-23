@@ -32,6 +32,44 @@ class ProductRepo {
     }
   }
 
+  // edit product
+  Future<bool> editProduct({
+    required int id,
+    required String title,
+    required String description,
+    required double price,
+    required int categoryId,
+  }) async {
+    final url = Uri.parse("${NetworkConstants.productsUrl}/$id");
+    final data = {
+      "title": title,
+      "description": description,
+      "price": price,
+      "categoryId": categoryId,
+      "images": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s"
+      ]
+    };
+    try {
+      final response = await http.put(
+        headers: {"Content-Type": "application/json"},
+        url,
+        body: jsonEncode(data),
+      );
+      log(response.body);
+
+      if (response.statusCode == 200) {
+        log(response.body);
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      log(e.toString());
+      throw Exception(e);
+    }
+  }
+
   // create new product
   Future<bool> createProduct({
     required String title,

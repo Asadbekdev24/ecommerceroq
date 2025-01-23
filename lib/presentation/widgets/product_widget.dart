@@ -5,6 +5,7 @@ class ProductCard extends StatelessWidget {
   final String image;
   final int price;
   final int id;
+  final VoidCallback onEdit;
 
   const ProductCard({
     required this.title,
@@ -12,6 +13,7 @@ class ProductCard extends StatelessWidget {
     required this.price,
     super.key,
     required this.id,
+    required this.onEdit,
   });
 
   @override
@@ -34,7 +36,9 @@ class ProductCard extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Image.network(
-                  image,
+                  image.startsWith("[")
+                      ? image.substring(2, image.length - 2).toString()
+                      : image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -83,17 +87,28 @@ class ProductCard extends StatelessWidget {
                         return Expanded(
                           child: AlertDialog(
                             title: Text(
+                              textAlign: TextAlign.center,
                               title,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
                             ),
                             content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                    width: 200,
-                                    height: 200,
-                                    child: Image.network(image)),
+                                  width: 200,
+                                  height: 200,
+                                  child: Image.network(
+                                    image.startsWith("[")
+                                        ? image
+                                            .substring(2, image.length - 2)
+                                            .toString()
+                                        : image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                                 SizedBox(height: 10),
                                 Text("Price: USD $price"),
                                 SizedBox(height: 10),
@@ -116,14 +131,8 @@ class ProductCard extends StatelessWidget {
                 ),
                 // Buy Button
                 TextButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Product added to cart!"),
-                      ),
-                    );
-                  },
-                  child: Text("Buy"),
+                  onPressed: onEdit,
+                  child: Text("Edit"),
                 ),
                 // Delete Button
                 TextButton(

@@ -13,9 +13,14 @@ class ProductProvider extends ChangeNotifier {
   bool isLoadingMore = false;
   List<ProductModel> products = [];
   List<Category> categories = [];
-  int pageNumber = 1;
+  int pageNumber = 0;
   int limit = 10;
   int selectedCategory = 1;
+
+  void updateSelectedCat(int newValue) {
+    selectedCategory = newValue;
+    notifyListeners();
+  }
 
   Future<void> getProducts() async {
     isLoading = true;
@@ -71,6 +76,30 @@ class ProductProvider extends ChangeNotifier {
     );
     log(result.toString());
     isLoading = false;
+    notifyListeners();
+    return result;
+  }
+
+  // edit product
+  // add new product
+  Future<bool> editProduct({
+    required int id,
+    required String title,
+    required String description,
+    required double price,
+  }) async {
+    isLoading = true;
+    notifyListeners();
+    final result = await productRepo.editProduct(
+      id: id,
+      title: title,
+      description: description,
+      price: price,
+      categoryId: selectedCategory,
+    );
+    log(result.toString());
+    isLoading = false;
+    await getProducts();
     notifyListeners();
     return result;
   }
