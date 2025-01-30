@@ -107,6 +107,13 @@ class ProductRepo {
     }
   }
 
+  // Future<bool> deleteItem(int id)
+  // async{
+
+
+
+  // }
+
   Future<List<dynamic>> getCategories() async {
     final url = Uri.parse(NetworkConstants.categoriesUrl);
     try {

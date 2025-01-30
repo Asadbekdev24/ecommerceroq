@@ -164,13 +164,28 @@ class _ProductsScreenState extends State<ProductsScreen> {
               ];
             },
             // The body contains the scrollable content
-            body: ListView.builder(
-              itemCount: 20,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text('Item $index'), // Display a list of items
-                );
-              },
+            body: Expanded(
+              child: ListView.builder(
+                itemCount: 20,
+                itemBuilder: (BuildContext context, int index) {
+                  ProductModel productModel = productProvider.products[index];
+                  return SizedBox(
+                    height: 300,
+                    child: ProductCard(
+                      title: productModel.title!,
+                      image: productModel.images![0],
+                      price: productModel.price!,
+                      id: productModel.id!,
+                      onEdit: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CreateProductScreen(),));
+                      },
+                    ),
+                  );
+                  // return ListTile(
+                  //   title: Text('Item $index'), // Display a list of items
+                  // );
+                },
+              ),
             ),
           );
         },

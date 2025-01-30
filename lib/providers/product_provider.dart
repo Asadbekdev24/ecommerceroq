@@ -104,6 +104,25 @@ class ProductProvider extends ChangeNotifier {
     return result;
   }
 
+  void deleteItem(int id) {
+    isLoading = true;
+    notifyListeners();
+    products.remove(products[id]);
+    isLoading = false;
+    notifyListeners();
+  }
+
+  // Future<bool> deleteProduct({
+  //   required int id,
+  // }) async{
+
+  //   isLoading=true;
+  //   notifyListeners();
+  //   final result = await productRepo.deleteItem(id:id);
+
+  //   isLoading=false;
+  // }
+
   // get categories
   Future<void> getCategories() async {
     notifyListeners();

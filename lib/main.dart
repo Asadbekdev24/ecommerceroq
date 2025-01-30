@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_2/data/repositories/product_repo.dart';
 import 'package:ecommerce_app_2/data/services/injection_container.dart';
+import 'package:ecommerce_app_2/presentation/screens/create_product_screen.dart';
 import 'package:ecommerce_app_2/presentation/screens/products_screen.dart';
 import 'package:ecommerce_app_2/providers/product_provider.dart';
 import 'package:flutter/material.dart';
